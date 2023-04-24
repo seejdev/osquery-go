@@ -33,6 +33,8 @@ type ExtensionManagerClient struct {
 // the provided path. If resolving the address or connecting to the socket
 // fails, this function will error.
 func NewClient(path string, timeout time.Duration) (*ExtensionManagerClient, error) {
+	thrift.ServerConnectivityCheckInterval = 0
+
 	trans, err := transport.Open(path, timeout)
 	if err != nil {
 		return nil, err
