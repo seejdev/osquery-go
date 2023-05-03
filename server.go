@@ -89,7 +89,7 @@ func ServerPingInterval(interval time.Duration) ServerOption {
 // See the thrift docs for more information
 func ServerConnectivityCheckInterval(interval time.Duration) ServerOption {
 	return func(s *ExtensionManagerServer) {
-		if interval != thrift.ServerConnectivityCheckInterval {
+		if interval != time.Millisecond*5 {
 			s.thriftMutex.Lock()
 			defer s.thriftMutex.Unlock()
 
