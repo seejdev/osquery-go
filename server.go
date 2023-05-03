@@ -50,6 +50,7 @@ type ExtensionManagerServer struct {
 	timeout      time.Duration
 	pingInterval time.Duration // How often to ping osquery server
 	mutex        sync.Mutex
+	thriftMutex  sync.RWMutex
 	uuid         osquery.ExtensionRouteUUID
 	started      bool // Used to ensure tests wait until the server is actually started
 }
@@ -88,8 +89,8 @@ func ServerPingInterval(interval time.Duration) ServerOption {
 // See the thrift docs for more information
 func ServerConnectivityCheckInterval(interval time.Duration) ServerOption {
 	return func(s *ExtensionManagerServer) {
-		s.mutex.Lock()
-		defer s.mutex.Unlock()
+		s.thriftMutex.Lock()
+		defer s.thriftMutex.Unlock()
 
 		thrift.ServerConnectivityCheckInterval = interval
 	}
